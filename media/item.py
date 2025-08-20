@@ -3,17 +3,18 @@ from bs4 import BeautifulSoup
 
 
 class Availability:
-    def __init__(self, location: str, count: int, max_count: int, shelf: str):
+    def __init__(self, location: str, count: int, max_count: int, room: str, shelf: str):
         self.location = location
         self.count = count
         self.max_count = max_count
+        self.room = room
         self.shelf = shelf
 
     def is_available(self) -> bool:
         return self.count > 0
 
     def __repr__(self):
-        return f"Availability({self.location}, {self.count}, {self.max_count} at {self.shelf})"
+        return f"Availability({self.location}, {self.count}, {self.max_count}, at {self.room} > {self.shelf})"
 
 
 class Availabilities:
@@ -43,6 +44,15 @@ class Item:
     def is_available(self, location: str) -> bool:
         return self.availabilities.is_available(location)
 
+    def get_room(self) -> str:
+        availabilities = self.availabilities.availabilities
+        if len(availabilities) == 0:
+            return ""
+        elif "Zentralbibliothek" not in availabilities:
+            return availabilities.values()[0].room
+        else:
+            return availabilities["Zentralbibliothek"].room
+
     def __repr__(self):
         return f"Item({self.title}, {self.availabilities}, {self.url})"
 
@@ -51,8 +61,9 @@ def parse_availability(availability: BeautifulSoup) -> Availability:
     location = availability.select(".medium-availability-item-title-location")[0].text
     count = availability.select(".medium-availability-item-title-count")[0].text
     count = count.split("/")
+    room = availability.select(".item-data-location-path")[0].text
     shelf = availability.select(".item-data-shelfmark")[0].text
-    return Availability(location, int(count[0]), int(count[1]), shelf)
+    return Availability(location, int(count[0]), int(count[1]), room, shelf)
 
 
 def retrieve_item_details(id: str) -> Item:

@@ -17,6 +17,7 @@ def main():
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         items: list[Item] = list(executor.map(retrieve_item_details, item_ids))
+    items.sort(key=lambda x: x.get_room())
 
     generate_website(items)
 

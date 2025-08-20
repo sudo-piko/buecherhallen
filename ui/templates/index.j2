@@ -23,6 +23,7 @@
             <tr>
                 <td><a href="{{ item.url }}">{{ item.title }}</a></td>
                 <td>({{ item.availabilities[location].count }}/{{ item.availabilities[location].max_count }}) </td>
+                <td>{{ item.availabilities[location].room }}</td>
                 <td>{{ item.availabilities[location].shelf }}</td>
             </tr>
             {% endfor %}
