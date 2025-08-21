@@ -9,6 +9,11 @@
     <link rel="apple-touch-icon" sizes="512x512" href="favicon-512x512.png">
     <link rel="apple-touch-icon" sizes="256x256" href="favicon-256x256.png">
     <link rel="apple-touch-icon" sizes="128x128" href="favicon-128x128.png">
+    <style>
+        img {
+            height: 1em;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,6 +26,7 @@
         <table>
             {% for item in items %}
             <tr>
+                <td><img src="{{ item.image }}"></td>
                 <td><a href="{{ item.url }}">{{ item.title }}</a></td>
                 <td>({{ item.availabilities[location].count }}/{{ item.availabilities[location].max_count }}) </td>
                 <td>{{ item.availabilities[location].room }}</td>

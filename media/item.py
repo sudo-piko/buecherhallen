@@ -36,10 +36,11 @@ class Availabilities:
 
 
 class Item:
-    def __init__(self, url, title, availabilities):
+    def __init__(self, url, title, availabilities, image):
         self.url = url
         self.title = title
         self.availabilities = availabilities
+        self.image = image
 
     def is_available(self, location: str) -> bool:
         return self.availabilities.is_available(location)
@@ -73,4 +74,6 @@ def retrieve_item_details(id: str) -> Item:
     title = soup.select_one(".medium-detail-title").text.strip()
     availabilities_html = soup.select(".medium-availability-item")
     availabilities = Availabilities(list(map(parse_availability, availabilities_html)))
-    return Item(url=url, title=title, availabilities=availabilities)
+    image = soup.select_one(".medium-detail-image img")["data-src"]
+    print(soup.select_one(".medium-detail-image img"))
+    return Item(url=url, title=title, availabilities=availabilities, image=image)
