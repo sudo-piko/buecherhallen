@@ -16,7 +16,7 @@
 <h1>Bücherhallen Merkliste</h1>
 <p><small>Zuletzt aktualisiert: {{ current_time }}</small></p>
 <div id="availabilities">
-    {% for location, items in location_mapping | dictsort %}
+    {% for location, items in location_mapping | dictsort(reverse=true) %}
         <h2 id="{{ location | lower }}">{{ location }}</h2>
         <table>
             {% for item in items %}
